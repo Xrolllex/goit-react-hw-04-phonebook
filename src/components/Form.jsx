@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 class Form extends Component {
   state = {
-    contacts: [],
     name: '',
     number: ''
   }
@@ -15,7 +14,8 @@ class Form extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    const { name, number } = this.state;
+    this.props.onSubmit({ name, number });
     this.setState({ name: '', number: '' });
   };
 
@@ -30,7 +30,8 @@ class Form extends Component {
             className="name-input"
             type="text"
             name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$ "
+            
+            pattern="[A-Za-z '-]+"
             title="Name may contain only letters, apostrophe, dash and spaces."
             required
             value={name}
@@ -44,8 +45,9 @@ class Form extends Component {
             className="number-input"
             type="tel"
             name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            
+            pattern="[0-9 +-]+"
+            title="Phone number must be digits and can contain spaces, dashes, and plus."
             required
             value={number}
             onChange={this.handleInputChange}
